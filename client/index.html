@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PassVault — Security Password Manager & Digital Vault</title>
+  <meta name="description" content="Production-quality zero-knowledge Security Password Manager & Digital Vault with AES-256 encryption, password strength analyzer, and audit logging.">
+  
+  <!-- FontAwesome Icons & Google Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/vault.css">
+  <link rel="stylesheet" href="css/generator.css">
+</head>
+<body>
+
+  <!-- Authentication Screen (Login / Register) -->
+  <div id="auth-screen" style="display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px;">
+    <div class="glass-card animate-fade-in" style="width: 100%; max-width: 440px; padding: 36px;">
+      
+      <!-- Brand Logo -->
+      <div style="text-align: center; margin-bottom: 28px;">
+        <div class="brand-logo" style="margin: 0 auto 12px auto; width: 48px; height: 48px; font-size: 24px;">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h1 class="brand-title" style="font-size: 24px; color: var(--color-text-main);">PassVault</h1>
+        <p style="font-size: 13px; color: var(--color-text-muted); margin-top: 4px;">Zero-Knowledge Digital Security Vault</p>
+      </div>
+
+      <!-- Auth Tab Buttons -->
+      <div style="display: flex; background: var(--color-bg-glass); padding: 4px; border-radius: var(--radius-md); border: 1px solid var(--color-border); margin-bottom: 24px;">
+        <button id="tab-btn-login" class="btn active" style="flex: 1; padding: 8px; font-size: 13px;" onclick="App.toggleAuthTab('login')">Login</button>
+        <button id="tab-btn-register" class="btn" style="flex: 1; padding: 8px; font-size: 13px;" onclick="App.toggleAuthTab('register')">Register</button>
+      </div>
+
+      <!-- Demo Account Quick Banner -->
+      <div style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.25); border-radius: var(--radius-md); padding: 12px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <div style="font-size: 12px; font-weight: 700; color: var(--color-primary);">Demo Account Ready</div>
+          <div style="font-size: 11px; color: var(--color-text-muted);">demo@passvault.com / Demo@123</div>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="App.fillDemoAccount()">One-Click Fill</button>
+      </div>
+
+      <!-- Login Form -->
+      <div id="login-box">
+        <form id="login-form">
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="login-email" class="form-control" placeholder="demo@passvault.com" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Master Password</label>
+            <div class="input-with-icon">
+              <input type="password" id="login-password" class="form-control" placeholder="••••••••" required />
+              <button type="button" class="input-icon-btn" onclick="togglePasswordVisibility('login-password')">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+            <i class="fas fa-sign-in-alt"></i> Unlock Vault
+          </button>
+        </form>
+      </div>
+
+      <!-- Register Form -->
+      <div id="register-box" style="display: none;">
+        <form id="register-form">
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="reg-email" class="form-control" placeholder="your.name@domain.com" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Master Password (8+ characters)</label>
+            <div class="input-with-icon">
+              <input type="password" id="reg-password" class="form-control" placeholder="••••••••" required minlength="8" />
+              <button type="button" class="input-icon-btn" onclick="togglePasswordVisibility('reg-password')">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirm Master Password</label>
+            <input type="password" id="reg-confirm" class="form-control" placeholder="••••••••" required minlength="8" />
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+            <i class="fas fa-user-plus"></i> Create Vault Account
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Main Application Workspace -->
+  <div id="main-workspace" style="display: none;">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="brand-header">
+        <div class="brand-logo"><i class="fas fa-shield-alt"></i></div>
+        <span class="brand-title">PassVault</span>
+      </div>
+      
+      <ul class="nav-list">
+        <li class="nav-item">
+          <button data-view="dashboard" class="active" onclick="App.navigate('dashboard')">
+            <i class="fas fa-chart-pie"></i> Dashboard
+          </button>
+        </li>
+        <li class="nav-item">
+          <button data-view="vault" onclick="App.navigate('vault')">
+            <i class="fas fa-key"></i> Password Vault
+          </button>
+        </li>
+        <li class="nav-item">
+          <button data-view="generator" onclick="App.navigate('generator')">
+            <i class="fas fa-magic"></i> Generator
+          </button>
+        </li>
+        <li class="nav-item">
+          <button data-view="analyzer" onclick="App.navigate('analyzer')">
+            <i class="fas fa-shield-alt"></i> Strength Analyzer
+          </button>
+        </li>
+        <li class="nav-item">
+          <button data-view="notes" onclick="App.navigate('notes')">
+            <i class="fas fa-sticky-note"></i> Secure Notes
+          </button>
+        </li>
+        <li class="nav-item">
+          <button data-view="audit" onclick="App.navigate('audit')">
+            <i class="fas fa-list-alt"></i> Audit Log
+          </button>
+        </li>
+        <li class="nav-item">
+          <button data-view="backup" onclick="App.navigate('backup')">
+            <i class="fas fa-database"></i> Backup & Restore
+          </button>
+        </li>
+        <li class="nav-item">
+          <button data-view="settings" onclick="App.navigate('settings')">
+            <i class="fas fa-cog"></i> Settings
+          </button>
+        </li>
+      </ul>
+
+      <div class="sidebar-user">
+        <div class="user-info">
+          <div class="user-avatar" id="user-avatar-initial">D</div>
+          <div class="user-details">
+            <span class="user-email" id="user-email-display">demo@passvault.com</span>
+            <span class="user-role">Encrypted Vault</span>
+          </div>
+        </div>
+        <button class="btn-icon" title="Logout" onclick="Auth.logout()">
+          <i class="fas fa-sign-out-alt"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Area -->
+    <main class="main-wrapper">
+      <header class="top-bar">
+        <h1 class="page-heading" id="current-page-title">Dashboard</h1>
+        <div class="top-actions">
+          <button class="btn btn-secondary btn-sm" onclick="AutoLock.lockVault()">
+            <i class="fas fa-lock"></i> Lock Vault
+          </button>
+          <button class="btn btn-primary btn-sm" onclick="VaultView.openAddModal()">
+            <i class="fas fa-plus"></i> New Item
+          </button>
+        </div>
+      </header>
+
+      <section class="content-container" id="view-container">
+        <!-- View content dynamically rendered here -->
+      </section>
+    </main>
+  </div>
+
+  <!-- JavaScript Scripts -->
+  <script src="js/crypto.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/utils/passwordUtils.js"></script>
+  <script src="js/utils/zxcvbnEngine.js"></script>
+  <script src="js/utils/clipboard.js"></script>
+  <script src="js/components/toast.js"></script>
+  <script src="js/components/modal.js"></script>
+  <script src="js/components/chart.js"></script>
+  <script src="js/components/autolock.js"></script>
+
+  <!-- Views -->
+  <script src="js/views/dashboardView.js"></script>
+  <script src="js/views/vaultView.js"></script>
+  <script src="js/views/generatorView.js"></script>
+  <script src="js/views/analyzerView.js"></script>
+  <script src="js/views/notesView.js"></script>
+  <script src="js/views/auditView.js"></script>
+  <script src="js/views/backupView.js"></script>
+  <script src="js/views/settingsView.js"></script>
+
+  <!-- Main App Coordinator -->
+  <script src="js/app.js"></script>
+</body>
+</html>
