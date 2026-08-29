@@ -1,0 +1,8 @@
+node_modules/
+passvault.db
+passvault.zip
+.env
+*.log
+py_security_tools/__pycache__/
+scratch/
+.DS_Store
