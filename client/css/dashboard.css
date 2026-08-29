@@ -1,0 +1,163 @@
+/* ==========================================================================
+   PassVault Dashboard & Security Score Visualizer
+   ========================================================================== */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+}
+
+/* Security Gauge Card */
+.security-gauge-card {
+  grid-column: span 12;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 32px;
+}
+
+@media (min-width: 992px) {
+  .security-gauge-card {
+    grid-column: span 7;
+  }
+  .dashboard-stats-col {
+    grid-column: span 5;
+  }
+}
+
+.gauge-container {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  flex-shrink: 0;
+}
+
+.gauge-circle {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.gauge-circle circle {
+  fill: none;
+  stroke-width: 12;
+  stroke-linecap: round;
+}
+
+.gauge-bg {
+  stroke: var(--color-bg-glass);
+}
+
+.gauge-value {
+  stroke: var(--color-primary);
+  stroke-dasharray: 377;
+  stroke-dashoffset: 377;
+  transition: stroke-dashoffset 1s ease-out;
+}
+
+.gauge-center-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.gauge-score {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.gauge-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+
+.security-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.security-title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.security-subtitle {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+/* Metric Cards */
+.metrics-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+.metric-card {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.metric-value {
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.metric-label {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+/* Dashboard Activity List */
+.activity-card {
+  grid-column: span 12;
+  padding: 24px;
+}
+
+@media (min-width: 992px) {
+  .activity-card {
+    grid-column: span 6;
+  }
+  .vulnerability-card {
+    grid-column: span 6;
+  }
+}
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.activity-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px;
+  border-radius: var(--radius-md);
+  background: var(--color-bg-glass);
+}
+
+.activity-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
