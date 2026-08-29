@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  passvault:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: passvault_app
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+      - JWT_SECRET=passvault_enterprise_secret_key_2026_docker_prod
+    volumes:
+      - passvault_data:/app/data
+    restart: unless-stopped
+
+volumes:
+  passvault_data:

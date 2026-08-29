@@ -1,0 +1,8 @@
+node_modules
+npm-debug.log
+.git
+.gitignore
+passvault.db
+.env
+tests
+py_security_tools/__pycache__
